@@ -25,7 +25,7 @@ module frame_motor() {
       // NEMA 17 stepper motor mounting screws.
       for (x = [-1, 1]) for (z = [-1, 1]) {
         scale([x, 1, z]) translate([15.5, -5, 15.5]) {
-          rotate([90, 0, 0]) cylinder(r=1.65, h=20, center=true, $fn=12);
+          rotate([90, 0, 0]) cube([3.3, 7, 16.5], center=true);
           // Easier ball driver access.
           rotate([74, -30, 0]) # cylinder(r=1.8, h=60, $fn=12);
         }
