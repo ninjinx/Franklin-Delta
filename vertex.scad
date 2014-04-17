@@ -1,6 +1,6 @@
 include <configuration.scad>;
 
-$fn = 24;
+$fn = 48;
 roundness = 6;
 
 module extrusion_cutout(h, extra) {
@@ -34,7 +34,7 @@ module vertex(height, idler_offset, idler_space) {
       union() {
         intersection() {
           translate([0, 22, 0])
-            cylinder(r=36, h=height, center=true, $fn=60);
+            cylinder(r=36, h=height, center=true, $fn=600);
           translate([0, -37, 0]) rotate([0, 0, 30])
             cylinder(r=50, h=height+1, center=true, $fn=6);
         }
@@ -89,7 +89,12 @@ module vertex(height, idler_offset, idler_space) {
 	        rotate([0, 0, -a*30]) cylinder(r=4, h=16, $fn=6);
 		cube([0.1, 5, 0.1], center=true);
 	      }
-            }
+            } //end for
+       //More nut tunnels
+		translate([a*-12, -100, 0]) rotate([0,90,0]) minkowski() {
+	        rotate([0, 0, -a*30]) cylinder(r=4, h=16, $fn=6, center=true);
+		cube([0.1, 5, 0.1], center=true);
+		}
           }
         }
       }
