@@ -1,43 +1,26 @@
 Release status
 ==============
 
-Most of these parts are now stable and won't change much more.
+<p>Experimental.
+<br/>This project is still very new so expect parts to change often. </p>
 
-How to print Mini Kossel
-========================
-
-* 3x plate_3x.stl (about 3x80g = 240g of plastic)
-* 1x plate_1x.stl (about 50g of plastic)
-
-Links
-=====
-
-* Bill of Materials: http://reprap.org/wiki/Kossel
-* Mailing list: http://groups.google.com/group/deltabot
-* Project history: http://deltabot.tumblr.com
-
-Pay it forward
+Kossel i2
 ==============
+<p>Kossel i2 is based on Johann Rocholl's work on the mini kossel. It includes changes by many different contributors.
+<br/>This repository is maintained by Thomas T. Sørensen.</p>
 
-Johann is offering free printed parts for Mini Kossel:
+Goals
+==============
+<ul>
+<li>Simpler assembly</li>
+<li>Better cable management</li>
+<li>Fewer parts</li>
+</ul>
 
-* I'm going to make some Mini Kossel printed parts kits.
-* I'm going to give them away for free (as in beer).
-* Some kits may include some non-printed parts.
-* Free international shipping is included.
-* No delivery schedule, maybe only one kit per month.
-
-But there's no such thing as a free lunch. If you want to receive a
-free kit, you must swear by your geek honor:
-
-* To complete your Mini Kossel and tune it well.
-* To print two (2) Mini Kossel kits and also give them away for free.
-* To make your recipients agree to the same rule.
-
-After giving away the 2 free kits, you may sell printed parts for any
-price you want.
-
-If you're interested, please email johann@rocholl.net and let me know
-your favorite PLA color and mailing address. If you want to get your
-printed parts first, explain why you're more qualified than others to
-start giving away high quality printed parts soon.
+Major changes
+==============
+<ul>
+<li>Wheels instead of rails</li>
+<li>Kossel i2 is designed for 3mm filament, rather than 1.75mm as the original</li>
+<li>No Z-probe. Kossel i2 uses force sensitive resistors for automatic bed leveling.</li>
+</ul>
