@@ -1,19 +1,21 @@
 include <configuration.scad>;
 
-tab_length = 55;
-tab_width = 35;
+tab_length = 45;
+tab_width = 25;
 tab_thickness = 3.6;
-glass_thickness = 4.0; 
+glass_thickness = 3.0; 
 glass_radius = 85.0;
 guard_thickness = 18;
 
-fsr_radius = 12.7;
+fsr_radius = 6.5;
 fsr_recess = 1.0;
-fsr_connector_width = 10.0;
+fsr_connector_width = 8.0;
 
 m3_head_radius = 3.0;
 ridge_length = 12;
 
+
+//The basic glass tab
 module glass_tab_base(){
 	intersection(){
 		difference(){
@@ -26,6 +28,8 @@ module glass_tab_base(){
 	}
 }
 
+
+//..with added FSR recess
 module glass_tab_recess(){
 	difference(){
 		glass_tab_base();
@@ -36,6 +40,8 @@ module glass_tab_recess(){
 	}
 }
 
+
+//..and mounting hole
 module glass_tab(){
 	difference(){
 		glass_tab_recess();
