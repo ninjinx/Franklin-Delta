@@ -1,28 +1,57 @@
 include <configuration.scad>;
 
-sticky_width = 25.4;
-sticky_length = 25.4;
-sticky_offset = 8;  // Distance from screw center to glass edge.
+tab_length = 55;
+tab_width = 35;
+tab_thickness = 3.6;
+glass_thickness = 4.0; 
+glass_radius = 85.0;
+guard_thickness = 18;
 
-// Make the round edge line up with the outside of OpenBeam.
-screw_offset = sticky_width/2 - 7.5;
-cube_length = sticky_length + sticky_offset - screw_offset;
+fsr_radius = 12.7;
+fsr_recess = 1.0;
+fsr_connector_width = 10.0;
 
-module glass_tab() {
-  difference() {
-    translate([0, screw_offset, 0]) union() {
-      cylinder(r=sticky_width/2, h=thickness, center=true);
-      translate([0, cube_length/2, 0])
-        cube([sticky_width, cube_length, thickness], center=true);
-    }
-    cylinder(r=m3_wide_radius, h=20, center=true, $fn=12);
-  }
-  // Scotch restickable tab for mounting.
-  translate([0, sticky_length/2+sticky_offset, thickness/2]) %
-    cube([sticky_width, sticky_length, 0.7], center=true);
-  // Horizontal OpenBeam.
-  translate([0, 0, (15+thickness)/-2]) %
-    cube([100, 15, 15], center=true);
+m3_head_radius = 3.0;
+ridge_length = 12;
+
+module glass_tab_base(){
+	intersection(){
+		difference(){
+			cylinder(r=glass_radius+guard_thickness, h=glass_thickness+tab_thickness, $fn=256);
+			translate([0, 0, tab_thickness])
+				cylinder(r=glass_radius, h=10, center=false, $fn=256);
+		}
+		translate([-tab_width/2,(glass_radius+guard_thickness)-tab_length,0])
+			cube([tab_width, (glass_radius+guard_thickness), glass_thickness+tab_thickness]);
+	}
 }
 
-translate([0, 0, thickness/2]) glass_tab();
+module glass_tab_recess(){
+	difference(){
+		glass_tab_base();
+		translate([0,(glass_radius+guard_thickness)-((tab_length+guard_thickness)/2),tab_thickness-fsr_recess])
+			cylinder(r=fsr_radius, h=10);
+		translate([-fsr_connector_width/2,0,tab_thickness-fsr_recess])
+			cube([fsr_connector_width,(glass_radius+guard_thickness)-((tab_length+guard_thickness)/2),10]);
+	}
+}
+
+module glass_tab(){
+	difference(){
+		glass_tab_recess();
+		hull(){
+			translate([0,glass_radius+(guard_thickness/2)-(ridge_length/2)+m3_wide_radius,-1])
+				cylinder(r=m3_wide_radius, h = 20, $fn=16);
+			translate([0,glass_radius+(guard_thickness/2)+(ridge_length/2)-m3_wide_radius,-1])
+				cylinder(r=m3_wide_radius, h = 20, $fn=16);
+		}
+		hull(){
+			translate([0,glass_radius+(guard_thickness/2)-(ridge_length/2)+m3_wide_radius,tab_thickness])
+				cylinder(r=m3_head_radius, h = 20, $fn=16);
+			translate([0,glass_radius+(guard_thickness/2)+(ridge_length/2)-m3_wide_radius,tab_thickness])
+				cylinder(r=m3_head_radius, h = 20, $fn=16);
+		}
+	}
+}
+
+glass_tab();
