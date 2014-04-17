@@ -43,19 +43,21 @@ module glass_tab_recess(){
 
 //..and mounting hole
 module glass_tab(){
-	difference(){
-		glass_tab_recess();
-		hull(){
-			translate([0,glass_radius+(guard_thickness/2)-(ridge_length/2)+m3_wide_radius,-1])
-				cylinder(r=m3_wide_radius, h = 20, $fn=16);
-			translate([0,glass_radius+(guard_thickness/2)+(ridge_length/2)-m3_wide_radius,-1])
-				cylinder(r=m3_wide_radius, h = 20, $fn=16);
-		}
-		hull(){
-			translate([0,glass_radius+(guard_thickness/2)-(ridge_length/2)+m3_wide_radius,tab_thickness])
-				cylinder(r=m3_head_radius, h = 20, $fn=16);
-			translate([0,glass_radius+(guard_thickness/2)+(ridge_length/2)-m3_wide_radius,tab_thickness])
-				cylinder(r=m3_head_radius, h = 20, $fn=16);
+	translate([0,-(glass_radius+guard_thickness)+(tab_length/2),0]){
+		difference(){
+			glass_tab_recess();
+			hull(){
+				translate([0,glass_radius+(guard_thickness/2)-(ridge_length/2)+m3_wide_radius,-1])
+					cylinder(r=m3_wide_radius, h = 20, $fn=16);
+				translate([0,glass_radius+(guard_thickness/2)+(ridge_length/2)-m3_wide_radius,-1])
+					cylinder(r=m3_wide_radius, h = 20, $fn=16);
+			}
+			hull(){
+				translate([0,glass_radius+(guard_thickness/2)-(ridge_length/2)+m3_wide_radius,tab_thickness])
+					cylinder(r=m3_head_radius, h = 20, $fn=16);
+				translate([0,glass_radius+(guard_thickness/2)+(ridge_length/2)-m3_wide_radius,tab_thickness])
+					cylinder(r=m3_head_radius, h = 20, $fn=16);
+			}
 		}
 	}
 }
