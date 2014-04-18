@@ -2,6 +2,7 @@ include <configuration.scad>;
 
 use <vertex.scad>;
 use <nema17.scad>;
+use <logotype.scad>;
 
 $fn = 24;
 
@@ -9,9 +10,13 @@ module frame_motor() {
   difference() {
     // No idler cones.
     vertex(3*extrusion, idler_offset=0, idler_space=100);
-    // KOSSEL logotype.
-    //translate([20.5, -10, 0]) rotate([90, -90, 30])
-      //scale([0.11, 0.11, 1]) import("logotype.stl");
+    // FRANKLIN logotype.
+	difference(){
+		translate([0, -10, 0]) rotate([90, 0, 0])
+      		scale([0.10, 0.10, 2]) logotype();
+		translate([0, 23, 0])
+			cylinder(r=36, h=30, $fn=48, center=true);
+	}
     // Motor cable paths.
     for (mirror = [-1, 1]) scale([mirror, 1, 1]) {
       translate([-35, 45, 0]) rotate([0, 0, -30])

@@ -5,4 +5,8 @@ include <Orbitron_Medium.scad>;
 // center - whether the output is centered or not
 // extra - extra distance between characters
 // height - height of extrusion, 0 for 2d
-Orbitron_Medium("KOSSEL", steps=2, center=true, extra=10, height=5);
+module logotype(){
+	Orbitron_Medium("FRANKLIN", steps=3, center=true, extra=8, height=5);
+}
+
+logotype();
