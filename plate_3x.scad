@@ -13,5 +13,5 @@ union() {
   translate([-40, 30, 0]) rotate([0, 0, -30]) carriage();
   translate([0, 0, 7.5]) endstop();
   translate([-15, -30, 7.5]) endstop();
-  translate([45, -20, thickness/2]) rotate([0, 0, 150]) glass_tab();
+  translate([30, -35, thickness/2]) rotate([0, 0, 150]) glass_tab();
 }
