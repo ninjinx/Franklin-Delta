@@ -24,3 +24,10 @@
 <li>Franklin is designed for 3mm filament, rather than 1.75mm used in the kossel</li>
 <li>No Z-probe. Franklin uses force sensitive resistors for automatic bed leveling.</li>
 </ul>
+
+<h2>Thanks to</h2>
+<ul>
+<li>Johann C. Rocholl for designing the original kossel.</li>
+<li>Steve Graber and Daniel Akesson for designing the original wheel carriage.</li>
+<li>Repables user <a href="http://repables.com/u/aselker/">Aselker</a> for vertex design with extra nut channels.</li>
+</ul>
