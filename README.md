@@ -1,26 +1,26 @@
-Release status
-==============
+<h1>Franklin Delta</h1>
+
+<h2>Release status</h2>
 
 <p>Experimental.
 <br/>This project is still very new so expect parts to change often. </p>
 
-Kossel i2
-==============
-<p>Kossel i2 is based on Johann Rocholl's work on the mini kossel. It includes changes by many different contributors.
+<h2>Description</h2>
+<p>Franklin Delta is based on Johann Rocholl's work on the mini kossel.
+<br/>It is named after Rosalind Franklin who contributed to the discovery of the structure of DNA.
 <br/>This repository is maintained by Thomas T. Sørensen.</p>
 
-Goals
-==============
+<h2>Goals</h2>
+<p>The goal is to improve upon the design by Johann Rocholl, especially in these categories: </p>
 <ul>
 <li>Simpler assembly</li>
 <li>Better cable management</li>
 <li>Fewer parts</li>
 </ul>
 
-Major changes
-==============
+<h2>Major changes</h2>
 <ul>
 <li>Wheels instead of rails</li>
-<li>Kossel i2 is designed for 3mm filament, rather than 1.75mm as the original</li>
-<li>No Z-probe. Kossel i2 uses force sensitive resistors for automatic bed leveling.</li>
+<li>Franklin is designed for 3mm filament, rather than 1.75mm used in the kossel</li>
+<li>No Z-probe. Franklin uses force sensitive resistors for automatic bed leveling.</li>
 </ul>
