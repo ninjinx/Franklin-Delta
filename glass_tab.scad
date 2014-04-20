@@ -1,18 +1,18 @@
 include <configuration.scad>;
 
-tab_length = 45;
-tab_width = 25;
+tab_length = 44;
+tab_width = 26;
 tab_thickness = 3.6;
-glass_thickness = 3.0; 
+glass_thickness = 3.6; 
 glass_radius = 85.0;
-guard_thickness = 18;
+guard_thickness = 16;
 
-fsr_radius = 6.5;
+fsr_radius = 9.5;
 fsr_recess = 1.0;
 fsr_connector_width = 8.0;
 
 m3_head_radius = 3.0;
-ridge_length = 12;
+ridge_length = 11;
 
 
 //The basic glass tab
