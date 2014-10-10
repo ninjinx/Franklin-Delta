@@ -137,7 +137,7 @@ module pg35l_extruder() {
 	rotate([0, 0, motor_mount_angle])
 	  translate([x, 0, body_thickness/2-m3_nut_height]) {
 	  rotate([0, 0, -motor_mount_angle])
-	    cylinder(r=m3_nut_radius, h=m3_nut_height*2, $fn=6);
+	    #cylinder(r=m3_nut_radius, h=m3_nut_height*2, $fn=6);
 	  translate([0, 0, 0.5]) rotate([180, 0, 0])
 	    cylinder(r=m3_radius, h=body_thickness, $fn=12);
 	}

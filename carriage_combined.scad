@@ -1,3 +1,57 @@
+include <configuration.scad>;
+
+separation = 40;
+thickness = 6;
+
+horn_thickness = 13;
+horn_x = 8;
+
+belt_width = 5;
+belt_x = 5.6;
+belt_z = 2;
+
+module carriage() {
+  // Timing belt (up and down).
+  translate([-belt_x, 0, belt_z + belt_width/2]) %
+    cube([1.7, 100, belt_width], center=true);
+  translate([belt_x, 0, belt_z + belt_width/2]) %
+    cube([1.7, 100, belt_width], center=true);
+  difference() {
+    union() {
+      // Ball joint mount horns.
+		difference(){
+			for (x = [-1, 1]) {
+				scale([x, 1, 1]) intersection() {
+					translate([0, 17.8, horn_thickness/2])
+						cube([separation, 13, horn_thickness], center=true);
+					translate([horn_x, 17.8, horn_thickness/2]) rotate([0, 90, 0])
+						cylinder(r1=14, r2=2.5, h=separation/2-horn_x);
+				}
+			}
+		}
+      // Belt clamps.
+		for (y = [-12.5, 6.5]) {
+			translate([1.16, y, 4])
+				cube([7, 7, 11], center=true);
+      }
+		translate([1.16, -3, 9])
+			cube([7, 26, 3], center=true);
+    }
+
+    // Screws for ball joints.
+    translate([0, 17.8, horn_thickness/2]) rotate([0, 90, 0])
+      #cylinder(r=m3_wide_radius, h=60, center=true, $fn=12);
+    // Lock nuts for ball joints.
+    for (x = [-1, 1]) {
+      scale([x, 1, 1]) intersection() {
+        translate([horn_x, 17.8, horn_thickness/2]) rotate([90, 0, -90])
+          #cylinder(r1=m3_nut_radius, r2=m3_nut_radius+0.5, h=8,
+                   center=true, $fn=6);
+      }
+    }
+  }
+}
+
 // Cerberus Pup-style carriage for Kossel, compatible with Kossel Mini/Pro linear rails
 
 // Steve Graber made the original design.
@@ -5,6 +59,8 @@
 // Brandon Heller tweaked the OpenSCAD to:
 // - be compatible with linear rails (thicker, w/20x20 m3 mounting grid)
 // - decouple rod mounts from the carriage, and be compatible with the Kosssel effector.
+// Thomas T. Sørensen combined the OpenSCAD design with the mini kossel carriage
+// and integrated it with the kossel configuration.scad
 
 // Kossel Pro and Mini ball rails equivalent to HIWIN Model MGN 12H:
 // http://hiwin.com/html/extras/mgn-c_mgn-h.html
@@ -94,13 +150,13 @@ module cut()
   translate([cut_offset_x+minimal_cut/2, -main_cube_length/8, 0]) {
     cube([cut_width, main_cube_length/4+cut_width, main_height + 2], center = true);
     translate([0, 1, 0]) rotate([0, 90, 0]) {
-      cylinder(r=m3_screw_r, h=100, $fn=smooth, center = true);
+      cylinder(r=m3_wide_radius, h=100, $fn=smooth, center = true);
     }
   }
   // Nut trap for tensioning screw
   translate([0, 1, 0]) translate([-main_cube_width/2-delta+m3_nut_thickness/2+m3_nut_thickness_extra_tensioner/2, -main_cube_length/8, 0]) {
     rotate([30, 0, 0]) rotate([0, 90, 0]) {
-      cylinder(r=m3_nut_r, h=m3_nut_thickness+delta+m3_nut_thickness_extra_tensioner, $fn=6, center=true);
+      cylinder(r=m3_nut_radius, h=m3_nut_thickness+delta+m3_nut_thickness_extra_tensioner, $fn=6, center=true);
     }
   }
   // Cut to outer edge of part, along x
@@ -129,7 +185,7 @@ module main_carriage()
         }
         // Section to give 3rd hole some beef
         translate([-main_cube_width/4-delta, -delta, -main_height/2])
-          cube([16+delta, 17+delta, main_height]);
+          cube([12+delta, 11+delta, main_height]);
       }
 
       // Holes for rollers
@@ -137,16 +193,16 @@ module main_carriage()
         // On side w/2 rollers:
         for (i=[-1, 1]) {
           translate([-roller_x_offset, roller_y_offset_each * i, 0]) {
-            cylinder(r=m3_screw_r, h=100, $fn=smooth, center = true);
+            cylinder(r=m3_wide_radius, h=100, $fn=smooth, center = true);
             translate([0, 0, main_height/2-m3_screw_head_len-m3_screw_head_gap])
-              cylinder(r=m3_screw_head_r, h=100, $fn=smooth);
+              cylinder(r1=m3_screw_head_r, r2=m3_screw_head_r+0.3, h=5, $fn=smooth);
           }
         }
         // On side w/1 roller
         translate([roller_x_offset, 0, 0]) {
-          cylinder(r=m3_screw_r, h=100, $fn=smooth, center = true);
+          cylinder(r=m3_wide_radius, h=100, $fn=smooth, center = true);
           translate([0, 0, main_height/2-m3_screw_head_len-m3_screw_head_gap])
-            cylinder(r=m3_screw_head_r, h=100, $fn=smooth);
+            cylinder(r1=m3_screw_head_r, r2=m3_screw_head_r+0.3, h=5, $fn=smooth);
         }
       }
 
@@ -156,4 +212,12 @@ module main_carriage()
   }
 }
 
-main_carriage();
+module combined(){
+	union(){
+		rotate([0,0,180]) translate([0,5,11.8])
+			carriage();
+		main_carriage();
+	}
+}
+
+combined();

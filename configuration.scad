@@ -1,15 +1,16 @@
 // Increase this if your slicer or printer make holes too tight.
 extra_radius = 0.1;
+extra_extrusion_width = 0.5;
 
 // OD = outside diameter, corner to corner.
 m3_nut_od = 6.1;
-m3_nut_radius = m3_nut_od/2 + 0.2 + extra_radius;
+m3_nut_radius = m3_nut_od/2 + 0.45 + extra_radius;
 m3_washer_radius = 3.5 + extra_radius;
 
 // Major diameter of metric 3mm thread.
 m3_major = 2.85;
 m3_radius = m3_major/2 + extra_radius;
-m3_wide_radius = m3_major/2 + extra_radius + 0.2;
+m3_wide_radius = m3_major/2 + extra_radius + 0.45;
 
 // NEMA17 stepper motors.
 motor_shaft_diameter = 5;
