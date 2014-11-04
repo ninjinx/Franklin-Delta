@@ -4,7 +4,7 @@ extra_extrusion_width = 0.5;
 
 // OD = outside diameter, corner to corner.
 m3_nut_od = 6.1;
-m3_nut_radius = m3_nut_od/2 + 0.45 + extra_radius;
+m3_nut_radius = m3_nut_od/2 + 0.35 + extra_radius;
 m3_washer_radius = 3.5 + extra_radius;
 
 // Major diameter of metric 3mm thread.

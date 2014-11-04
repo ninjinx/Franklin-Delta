@@ -32,9 +32,9 @@ module carriage() {
       // Belt clamps.
 		for (y = [-12.5, 6.5]) {
 			translate([1.16, y, 4])
-				cube([7, 7, 11], center=true);
+				cube([7, 7, 15], center=true);
       }
-		translate([1.16, -3, 9])
+		translate([1.16, -3, 13])
 			cube([7, 26, 3], center=true);
     }
 
@@ -156,7 +156,7 @@ module cut()
   // Nut trap for tensioning screw
   translate([0, 1, 0]) translate([-main_cube_width/2-delta+m3_nut_thickness/2+m3_nut_thickness_extra_tensioner/2, -main_cube_length/8, 0]) {
     rotate([30, 0, 0]) rotate([0, 90, 0]) {
-      cylinder(r=m3_nut_radius, h=m3_nut_thickness+delta+m3_nut_thickness_extra_tensioner, $fn=6, center=true);
+      cylinder(r=m3_nut_radius-0.15, h=m3_nut_thickness+delta+m3_nut_thickness_extra_tensioner, $fn=6, center=true);
     }
   }
   // Cut to outer edge of part, along x

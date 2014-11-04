@@ -1,6 +1,5 @@
 include <configuration.scad>;
 use <logotype.scad>;
-
 ramps_screw_dist_y = 88.8;
 ramps_screw_dist_x = 55.3;
 
@@ -19,7 +18,7 @@ tab_cutout_depth = 45;
 
 screw_cutout_depth = 12;
 
-logo = true;
+logo = false;
 lcd_bracket = true;
 lcd_bracket_separation = 146; //center to center distance between mounting screws
 lcd_bracket_width = 10;
@@ -32,6 +31,21 @@ p3 = [cos(angle)*s2, sin(angle)*s2]+p2;
 p4 = [cos(angle*2)*s1, sin(angle*2)*s1]+p3;
 p5 = [cos(angle*3)*s2, sin(angle*3)*s2]+p4;
 p6 = [cos(angle*4)*s1, sin(angle*4)*s1]+p5;
+
+side_length = 240;
+side_height = extrusion * 3;
+side_cutout_depth = 6;
+
+power_dia = 12.4;
+usb_screw_dia = 3;
+usb_screw_dist = 30;
+usb_height = 12.0;
+usb_width = 13.0;
+button_screw_dia = 2.5;
+button_screw_dist = 24;
+button_width = 20;
+button_height = 13;
+cable_dia = 15;
 
 module plate_base(){
 	translate([-s1/2,-height1/3])
@@ -135,6 +149,72 @@ module plate_top(){
 	}
 }
 
-plate_middle();
+module side_base(){
+	difference(){
+		square([side_length, side_height]);
+		translate([-1, (extrusion/2)-(3.5/2)]) square([side_cutout_depth+1, 3.5]);
+		translate([-1, side_height-((extrusion/2)-(3.5/2)+3.5)]) square([side_cutout_depth+1, 3.5]);
+		translate([side_length-side_cutout_depth, side_height-((extrusion/2)-(3.5/2)+3.5)]) square([side_cutout_depth+1, 3.5]);
+		translate([side_length-side_cutout_depth,  (extrusion/2)-(3.5/2)]) square([side_cutout_depth+1, 3.5]);
+	}
+}
+
+module side_left(){
+	difference(){
+		side_base();
+/*#square([60,side_height]);
+#translate([side_length-60, 0]) square([60,side_height]);
+#square([side_length, extrusion]);
+#translate([0,extrusion*2]) square([side_length, extrusion]);*/
+
+		//USB
+		translate([30,0]){
+			translate([(side_length/2) + (usb_screw_dist/2),side_height/2]) 
+				circle(d=usb_screw_dia, $fn=64);
+			translate([(side_length/2) - (usb_screw_dist/2),side_height/2]) 
+				circle(d=usb_screw_dia, $fn=64);
+			translate([side_length/2,side_height/2]) square([usb_width, usb_height],center = true);
+		}
+
+		//Power connector
+		translate([side_length/2, side_height/2]) circle(d=power_dia, $fn=64);
+
+		//Power button
+		translate([-30,0]) {
+			/*translate([(side_length/2) + (button_screw_dist/2),side_height/2]) 
+				circle(d=button_screw_dia, $fn=32);
+			translate([(side_length/2) - (button_screw_dist/2),side_height/2]) 
+				circle(d=button_screw_dia, $fn=32);*/
+			translate([side_length/2,side_height/2]) square([button_width, button_height],center = true);
+		}
+	}
+}
+
+module side_right(){
+	difference(){
+		side_base();
+/*#square([60,side_height]);
+#translate([side_length-60, 0]) square([60,side_height]);
+#square([side_length, extrusion]);
+#translate([0,extrusion*2]) square([side_length, extrusion]);*/
+		translate([side_length/2, side_height/2]) circle(d=cable_dia);
+	}
+}
+
+module side_front(){
+	difference(){
+		side_base();
+/*#square([60,side_height]);
+#translate([side_length-60, 0]) square([60,side_height]);
+#square([side_length, extrusion]);
+#translate([0,extrusion*2]) square([side_length, extrusion]);*/
+	}
+}
+
+//plate_middle();
+//plate_top();
 //plate_bottom();
 //%plate_base();
+side_left();
+//side_right();
+//side_front();
