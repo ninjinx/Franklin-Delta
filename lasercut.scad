@@ -47,6 +47,9 @@ button_width = 20;
 button_height = 13;
 cable_dia = 15;
 
+mount_radius = 12.5;  // Hotend mounting screws, standard would be 25mm.
+hotend_radius = 6.0;  // Hole for the hotend (J-Head diameter is 16mm).
+
 module plate_base(){
 	translate([-s1/2,-height1/3])
 			polygon([p1, p2, p3, p4, p5, p6]);
@@ -85,7 +88,7 @@ module plate_middle(){
 		if(lcd_bracket){
 			translate([lcd_bracket_separation/2 - lcd_bracket_width/2, -inscribed_r-1])
 				square([lcd_bracket_width, 16]);
-			translate([-lcd_bracket_separation/2 + lcd_bracket_width/2, -inscribed_r-1])
+			translate([-(lcd_bracket_separation/2 + lcd_bracket_width/2), -inscribed_r-1])
 				square([lcd_bracket_width, 16]);
 		}
 
@@ -154,67 +157,83 @@ module side_base(){
 		square([side_length, side_height]);
 		translate([-1, (extrusion/2)-(3.5/2)]) square([side_cutout_depth+1, 3.5]);
 		translate([-1, side_height-((extrusion/2)-(3.5/2)+3.5)]) square([side_cutout_depth+1, 3.5]);
-		translate([side_length-side_cutout_depth, side_height-((extrusion/2)-(3.5/2)+3.5)]) square([side_cutout_depth+1, 3.5]);
-		translate([side_length-side_cutout_depth,  (extrusion/2)-(3.5/2)]) square([side_cutout_depth+1, 3.5]);
+		translate([side_length-side_cutout_depth, side_height-((extrusion/2)-(3.5/2)+3.5)]) square([side_cutout_depth+1, 3.5]);				translate([side_length-side_cutout_depth,  (extrusion/2)-(3.5/2)]) square([side_cutout_depth+1, 3.5]);
 	}
 }
 
 module side_left(){
-	difference(){
-		side_base();
-/*#square([60,side_height]);
-#translate([side_length-60, 0]) square([60,side_height]);
-#square([side_length, extrusion]);
-#translate([0,extrusion*2]) square([side_length, extrusion]);*/
+	translate([-side_length/2, -side_height/2])
+		difference(){
+			side_base();
+			/*#square([60,side_height]);
+			#translate([side_length-60, 0]) square([60,side_height]);
+			#square([side_length, extrusion]);
+			#translate([0,extrusion*2]) square([side_length, extrusion]);*/
 
-		//USB
-		translate([30,0]){
-			translate([(side_length/2) + (usb_screw_dist/2),side_height/2]) 
-				circle(d=usb_screw_dia, $fn=64);
-			translate([(side_length/2) - (usb_screw_dist/2),side_height/2]) 
-				circle(d=usb_screw_dia, $fn=64);
-			translate([side_length/2,side_height/2]) square([usb_width, usb_height],center = true);
+			//USB
+			translate([30,0]){
+				translate([(side_length/2) + (usb_screw_dist/2),side_height/2]) 
+					circle(d=usb_screw_dia, $fn=64);
+				translate([(side_length/2) - (usb_screw_dist/2),side_height/2]) 
+					circle(d=usb_screw_dia, $fn=64);
+				translate([side_length/2,side_height/2]) square([usb_width, usb_height],center = true);
+			}
+
+			//Power connector
+			translate([side_length/2, side_height/2]) circle(d=power_dia, $fn=64);
+	
+			//Power button
+			translate([-30,0]) {
+				/*translate([(side_length/2) + (button_screw_dist/2),side_height/2]) 
+					circle(d=button_screw_dia, $fn=32);
+				translate([(side_length/2) - (button_screw_dist/2),side_height/2]) 
+					circle(d=button_screw_dia, $fn=32);*/
+				translate([side_length/2,side_height/2]) square([button_width, button_height],center = true);
+			}
 		}
-
-		//Power connector
-		translate([side_length/2, side_height/2]) circle(d=power_dia, $fn=64);
-
-		//Power button
-		translate([-30,0]) {
-			/*translate([(side_length/2) + (button_screw_dist/2),side_height/2]) 
-				circle(d=button_screw_dia, $fn=32);
-			translate([(side_length/2) - (button_screw_dist/2),side_height/2]) 
-				circle(d=button_screw_dia, $fn=32);*/
-			translate([side_length/2,side_height/2]) square([button_width, button_height],center = true);
-		}
-	}
 }
 
 module side_right(){
-	difference(){
-		side_base();
-/*#square([60,side_height]);
-#translate([side_length-60, 0]) square([60,side_height]);
-#square([side_length, extrusion]);
-#translate([0,extrusion*2]) square([side_length, extrusion]);*/
-		translate([side_length/2, side_height/2]) circle(d=cable_dia);
-	}
+	translate([-side_length/2, -side_height/2])
+		difference(){
+			side_base();
+			/*#square([60,side_height]);
+			#translate([side_length-60, 0]) square([60,side_height]);
+			#square([side_length, extrusion]);
+			#translate([0,extrusion*2]) square([side_length, extrusion]);*/
+			translate([side_length/2, side_height/2]) circle(d=cable_dia);
+		}
 }
 
 module side_front(){
+	translate([-side_length/2, -side_height/2])
+			difference(){
+			side_base();
+			translate([60, side_height/3]) square([side_length-120,side_height/3]);
+			/*#square([60,side_height]);
+			#translate([side_length-60, 0]) square([60,side_height]);
+			#square([side_length, extrusion]);
+			#translate([0,extrusion*2]) square([side_length, extrusion]);*/
+		}
+}
+
+module e3d_holder(){
 	difference(){
-		side_base();
-/*#square([60,side_height]);
-#translate([side_length-60, 0]) square([60,side_height]);
-#square([side_length, extrusion]);
-#translate([0,extrusion*2]) square([side_length, extrusion]);*/
+		circle(r=20, $fn=64);
+		circle(r=hotend_radius, $fn=64);
+		#translate([0,15]) square([2*hotend_radius, 30], center=true);
+		for (a = [0:120:359]) rotate([0, 0, a]) {
+			rotate([0, 0, 60]) translate([0, mount_radius, 0])
+				circle(r=m3_wide_radius, center=true, $fn=48);
+		}
 	}
 }
 
 //plate_middle();
+e3d_holder();
 //plate_top();
 //plate_bottom();
 //%plate_base();
-side_left();
+//side_left();
 //side_right();
 //side_front();

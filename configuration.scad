@@ -10,7 +10,7 @@ m3_washer_radius = 3.5 + extra_radius;
 // Major diameter of metric 3mm thread.
 m3_major = 2.85;
 m3_radius = m3_major/2 + extra_radius;
-m3_wide_radius = m3_major/2 + extra_radius + 0.45;
+m3_wide_radius = m3_major/2 + extra_radius;
 
 // NEMA17 stepper motors.
 motor_shaft_diameter = 5;

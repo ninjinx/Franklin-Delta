@@ -1,7 +1,6 @@
 include <configuration.scad>;
 
 mount_radius = 12.5;  // Hotend mounting screws, standard would be 25mm.
-push_fit_height = 5.5;  // Length of brass threaded into printed plastic.
 height = 3;
 hotend_r = 6.1;
 m3_extra_clearance = 0.08;
