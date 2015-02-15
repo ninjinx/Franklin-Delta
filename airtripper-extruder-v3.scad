@@ -3,21 +3,15 @@
 // Copyright � 2012 - 2013 Airtripper
 // airtripper.com
 // It is licensed under the Creative Commons - GNU GPL license. 
+// Last edit: 05/09/2013
 
-// Parametrized and modified by Thomas T. Sørensen
-// Last edited by Thomas T. Sørensen: 2014-11-13
 
-include <configuration.scad>;
 
-idler_bearing_offset = -1.5;
-
-strut_height = 9.5;
-strut_screw_depth = 0.5;
 
 
 // What part do you want to view?
 
-preview_part = 11; // [1:Extruder,2:Idler,3:Idler with brim,4:Strut,5:Axle,6:Tube Bracket,7:All Parts, 8: extruder & axle, 9: idler & strut, 10: spring bracket, 11: holder]
+preview_part = 1; // [1:Extruder,2:Idler,3:Idler with brim,4:Strut,5:Axle,6:Tube Bracket,7:All Parts]
 
 
 // *****************************************************
@@ -26,7 +20,7 @@ if (preview_part == 1) {
 	translate([0,0,0]) rotate([0,0,270]) extruder_block();
 }
 if (preview_part == 2) {
-	extruder_idler_625();
+	extruder_idler_608z();
 } 
 if (preview_part == 3) {
 	idler_and_flange();
@@ -35,7 +29,7 @@ if (preview_part == 4) {
 	support_strut();
 } 
 if (preview_part == 5) {
-	axle_5mm();
+	axle_8mm();
 }
 if (preview_part == 6) {
 	translate([15,-15,0]) rotate([0,0,90]) tube_bracket();
@@ -55,62 +49,8 @@ if (preview_part == 9) {
 	translate([0,-8,0]) rotate([0,0,90]) extruder_idler_608z(); //idler_and_flange();
 	translate([0,10,0]) rotate([0,0,0]) support_strut();
 } 
-if (preview_part == 10) {
-	spring_bracket();
-}
-if (preview_part == 11) {
-	extruder_holder();
-}
 
-// ************** Extruder holder ***********************
 
-module extruder_holder(){
-	//extruder_block();
-	translate([-10,0,-18.5]) rotate([0,90,0])
-	difference() {
-		union(){
-			translate([-20,0,10]) cube([3,74,20], center = true);
-			translate([-23,30.5,10]) rotate([0,90,0]) cylinder(2, r=5.5, $fn=25);	
-			translate([-23,-30.5,10]) rotate([0,90,0]) cylinder(2, r=5.5, $fn=25);
-			difference(){
-				translate([-26.5,0,10]) cube([10,40,10], center=true);
-				translate([-26.5,20,10]) rotate([0,0,30]) cube([15,5,15], center=true);
-				translate([-26.5,-20,10]) rotate([0,0,-30]) cube([15,5,15], center=true);
-			}
-		}
-		union() {
-			// fixing plate cutout
-			translate([-20,37,0]) rotate([45,0,0]) cube([6,16,7], center = true);
-			translate([-20,-37,0]) rotate([135,0,0]) cube([6,16,7], center = true);
-			translate([-20,37,20]) rotate([135,0,0]) cube([6,16,7], center = true);
-			translate([-20,-37,20]) rotate([45,0,0]) cube([6,16,7], center = true);
-			// M3 bolt holes
-			translate([-25,30.5,10]) rotate([0,90,0]) cylinder(10, r=1.8, $fn=25);
-			translate([-25,-30.5,10]) rotate([0,90,0]) cylinder(10, r=1.8, $fn=25);	
-			//M3 nut traps
-			translate([-24,-30.5,10]) rotate([0,90,0]) cylinder(3, r=m3_nut_radius, $fn=6);	
-			translate([-24,30.5,10]) rotate([0,90,0]) cylinder(3, r=m3_nut_radius, $fn=6);
-			//Mounting holes
-			translate([-40,-8,10]) rotate([0,90,0]) cylinder(30, r=1.8, $fn=25);	
-			translate([-40,8,10]) rotate([0,90,0]) cylinder(30, r=1.8, $fn=25);
-			translate([-28.5,-8,10]) rotate([0,90,0]) cylinder(20, r=3.5, $fn=32);	
-			translate([-28.5,8,10]) rotate([0,90,0]) cylinder(20, r=3.5, $fn=32);
-		}
-	}
-}
-
-// ************** Spring bracket ***********************
-
-module spring_bracket(){
-	difference(){
-		cube([22, 6, 3], center=true);
-		translate([6,0,0]) cylinder(h=6, r=1.75, center=true, $fn=48);
-		translate([-6,0,0]) cylinder(h=6, r=1.75, center=true, $fn=48);
-		translate([-3, -.75, 0]) cube([6, 1.5, 2]); 
-		translate([1.5, 0, 0]) cube([1.5, 6, 2]); 
-		translate([-3, -6, 0]) cube([1.5, 6, 2]);
-	}
-}
 
 // ************** Idler with Flange ***********************
 
@@ -149,10 +89,6 @@ module axle_8mm() {
 //		cylinder(0.5,r=10, $fn=40);
 //		translate([0,0,-1]) cylinder(3,r=5, $fn=40);
 //	}
-}
-
-module axle_5mm() {
-	cylinder(14.25,r=2.3, $fn=40);
 }
 
 
@@ -200,49 +136,6 @@ module extruder_idler_608z() {
 		}
 	}
 
-}
-
-module extruder_idler_625(){
-	difference() {
-		union() {
-			difference() {
-				translate([0,0,7]) cube([22,42,14], center = true);
-				// Bearing housing
-				//#translate([-6,0,8]) cube([10,50,20], center = true);
-				translate([0,0,7]) cube([10,18,15], center = true);
-				//translate([-5,0,3+idler_bearing_offset]) rotate([0,90,0]) cylinder(10,r=12, $fn=60);
-			}
-			// Axle spacer
-			translate([-8,0,3+idler_bearing_offset]) rotate([0,90,0]) cylinder(16,r=5.5, $fn=40);
-			translate([0,0,idler_bearing_offset-1.5]) cube([16,11,9], center = true);
-		}
-		union() {
-			// Bearing axle cut-out
-			translate([-7.75,0,3+idler_bearing_offset]) rotate([0,90,0]) cylinder(15.5,r=2.75, $fn=40);
-			translate([0,0,idler_bearing_offset-1]) cube([14.2,5.5,8], center = true);
-			translate([-4.5,0,idler_bearing_offset-3]) rotate([0,20,0]) cube([6,5.5,8], center = true);
-			translate([4.5,0,idler_bearing_offset-3]) rotate([0,-20,0]) cube([6,5.5,8], center = true);
-			translate([-3.0,0,3+idler_bearing_offset]) rotate([0,90,0]) cylinder(6.0,r=12, $fn=60);
-         //#translate([-3.0,0,3+idler_bearing_offset]) rotate([0,90,0]) cylinder(6.0,r=8, $fn=60);
-			translate([0,0,-7]) cube([22, 42, 14], center=true);
-			// hook
-			translate([-12,-15.5,6]) rotate([0,90,0]) cylinder(24,r=2, $fn=25);
-			translate([0,-18.5,11]) cube([24,10,10], center = true);
-			translate([9.5,-17,1]) cube([4,16,16], center = true);
-			translate([-9.5,-17,1]) cube([4,16,16], center = true);
-			translate([0,-21,0]) rotate([45,0,0]) cube([24,6,10], center = true);
-			translate([-11,-12,9.6]) rotate([0,135,0]) cube([4,6,6], center = true);
-			translate([11,-12,9.6]) rotate([0,45,0]) cube([4,6,6], center = true);
-			// Bolt slots
-			translate([6,20,7]) cube([3.5,10,16], center = true);
-			translate([-6,20,7]) cube([3.5,10,16], center = true);
-			translate([0,24,7]) rotate([154,0,0]) cube([24,10,26], center = true);
-			translate([0,26.5,25]) rotate([145,0,0]) cube([24,10,26], center = true);
-			translate([0,25.5,7]) cube([22,10,16], center = true);
-			//Padding
-			//translate([-9,-17,7]) cube([6,10,16], center = true);
-		}
-	}
 }
 
 
@@ -412,18 +305,16 @@ module support_strut() {
 
 	difference() {
 		union() {
-			translate([-15.5,0,0]) cylinder(strut_height, r=5, $fn=30);
-			translate([15.5,0,0]) cylinder(strut_height, r=5, $fn=30);
-			translate([-15.5,-3.5,0]) cube([31,7,strut_height]);
+			translate([-15.5,0,0]) color("red") cylinder(6, r=5, $fn=30);
+			translate([15.5,0,0]) color("red") cylinder(6, r=5, $fn=30);
+			translate([-15.5,-3.5,0]) color("red") cube([31,7,6]);
 		}
 		union() {
 			// Screw holes
-			translate([-15.5,0,strut_height/2]) cylinder(strut_height*2, r=1.75, $fn=30, center=true);
-			translate([15.5,0,strut_height/2]) cylinder(strut_height*2, r=1.75, $fn=30, center=true);
-			if(strut_screw_depth > 0){
-				translate([-15.5,0,strut_height-strut_screw_depth]) cylinder(strut_height, r=3, $fn=30);
-				translate([15.5,0,strut_height-strut_screw_depth]) cylinder(strut_height, r=3, $fn=30);
-			}
+			translate([-15.5,0,-1]) color("red") cylinder(5, r=1.75, $fn=30);
+			translate([15.5,0,-1]) color("red") cylinder(5, r=1.75, $fn=30);
+			translate([-15.5,0,3]) color("red") cylinder(5, r=3, $fn=30);
+			translate([15.5,0,3]) color("red") cylinder(5, r=3, $fn=30);
 		}
 	}
 }
