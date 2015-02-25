@@ -59,4 +59,4 @@ module lcd_holders(num){
 	}
 }
 
-lcd_holder(20,true);
+lcd_holders(2);
