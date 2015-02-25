@@ -59,6 +59,10 @@ module e3d_v6(){
 	translate([0,0,-7.1]) e3d_heatbreak();
 	translate([0,0,-14.2]) heatblock();
 	translate([0,0,-19.26]) nozzle();
+}
+
+module e3d_v6_with_fan(){
+	e3d_v6();
 	fan_shroud();
 }
 
