@@ -1,4 +1,5 @@
 include <configuration.scad>;
+use <extrusion.scad>;
 
 fsr_radius = 9.8;
 fsr_recess = 1.5;
@@ -14,14 +15,14 @@ module fsr_holder(width, length, height){
 	difference(){
 		union(){
 			cube([width,length,height], center = true);
-			translate([0,-(length/2)+0.2,(height/2)-2.2]) rotate([0,90,0])
+			translate([0,-(length/2)+0.2,(height/2)-2.3]) rotate([0,90,0])
 				cylinder(r = 1.0, h = width, $fn = 16, center = true);
-			translate([0,-(length/2)+0.2,-(height/2)+2.2]) rotate([0,90,0]) 
+			translate([0,-(length/2)+0.2,-(height/2)+2.3]) rotate([0,90,0]) 
 				cylinder(r = 1.0, h = width, $fn = 16, center = true);
 			difference(){
 				translate([-width/2,(-length/2)+0.5,0]) rotate([0,90,0])
-					cylinder(r = 1.2, h = width, $fn = 16);
-				rotate([90,0,0]) cylinder(r = 3.5, h = length*2, center = true);
+					cylinder(r = 1.75, h = width, $fn = 16);
+				rotate([90,0,0]) cylinder(r = 3.5, h = length*2, center = true, $fn = 16);
 			}
 		}
 		translate([0,(-length/2)+2,(height/2)-fsr_recess]) fsr_cutout();
@@ -32,5 +33,7 @@ module fsr_holder(width, length, height){
 		rotate([90,0,0]) cylinder(r = m3_wide_radius, h = length*2, center = true, $fn = 16);
 	}
 }
+
+//translate([-150,-(7.5+15),0])rotate([0,90,0]) extrusion(300);
 
 fsr_holder(25, 30, extrusion);
