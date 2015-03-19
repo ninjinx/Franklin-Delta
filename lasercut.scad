@@ -85,12 +85,12 @@ module plate_middle(){
 			}
 		}
 
-		if(lcd_bracket){
+		/*if(lcd_bracket){
 			translate([lcd_bracket_separation/2 - lcd_bracket_width/2, -inscribed_r-1])
 				square([lcd_bracket_width, 16]);
 			translate([-(lcd_bracket_separation/2 + lcd_bracket_width/2), -inscribed_r-1])
 				square([lcd_bracket_width, 16]);
-		}
+		}*/
 
 		if(logo){
 			projection() scale(1/5) translate([0, -23]) logotype();
@@ -229,8 +229,8 @@ module e3d_holder(){
 	}
 }
 
-//plate_middle();
-e3d_holder();
+plate_middle();
+//e3d_holder();
 //plate_top();
 //plate_bottom();
 //%plate_base();
