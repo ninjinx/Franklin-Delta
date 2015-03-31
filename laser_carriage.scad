@@ -107,6 +107,17 @@ module arm_holder(){
 	}
 }
 
+module belt(t){
+	union(){
+		for(i = [0:t-1]){
+			translate([2*i,0]){
+				square([2,1.38-0.6]);
+				translate([1,1.38-0.555]) circle(r = 0.555);
+			}
+		}
+	}
+}
+
 module belt_connector(){
 	difference(){
 		union(){
@@ -117,6 +128,8 @@ module belt_connector(){
 				translate([-15,7.5]) circle(d = 10);
 			}
 		}
+		translate([5,6]) mirror([0,1,0])belt(8);
+		translate([-21,6]) mirror([0,1,0])belt(8);
 		translate([-(plate_thickness-kerf)/2,2]) square([plate_thickness-kerf, 4-kerf]);
 		translate([0,10.5]) circle(d = 3);
 	}
@@ -208,6 +221,8 @@ color("DimGray"){
 //carriage_complete();
 
 plate_3x();
+
+//belt(10);
 
 //belt_connector();
 
