@@ -5,8 +5,8 @@ module extrusion_cutsection(){
 }
 
 
-module extrusion(h){
-	linear_extrude(height = h){
+module extrusion(h, center){
+	linear_extrude(height = h, center = center){
 		extrusion_cutsection();
 	}
 }

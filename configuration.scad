@@ -28,3 +28,24 @@ motor_offset = 44;
 motor_length = 47;
 
 fsr_offset = 3;
+
+
+//NEW CONFIG 
+//PSU
+psu_w = 57;
+psu_h = 32;
+psu_l = 126;
+
+inner_radius = 95;
+outer_radius = 162;
+base_height = psu_w;
+side_length = 280;
+
+v1 = [cos(60)*(inner_radius+15+3), sin(60)*(inner_radius+15+3)];
+v2 = [cos(-30)*side_length/2, sin(-30)*side_length/2];
+v3 = v1+v2;
+
+corner_length = v3[1]*2;
+corner_distance = v3[0];
+
+echo(corner_length);

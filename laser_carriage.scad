@@ -1,3 +1,5 @@
+/////******* HUSK AT ÆNDRE MØTRIKSTØRRELSE!!!! **********//////////
+
 include <configuration.scad>;
 use <extrusion.scad>;
 
@@ -7,7 +9,7 @@ screw_size = 3;
 screw_length = 8;
 
 plate_thickness = 3.0;
-kerf = 0.18;
+kerf = 0.14;
 
 //Wheel dimensions
 minor_dia = 12;
@@ -17,7 +19,7 @@ separation = 60;
 
 belt_height = 17.8;
 
-wheel_pressure = 0.4;
+wheel_pressure = 0.93;
 wheel_pos = (major_dia+extrusion)/2-wheel_pressure;
 arm_pos = 18.3;
 horn_thickness = 5;
@@ -101,7 +103,7 @@ module arm_holder(){
 			}
 		}
 		translate([0,-1.5]) square([1+screw_length-plate_thickness,3]);
-		translate([2.1,-0.8*3]) square([0.8*3,1.6*3]);
+		translate([2.1,-5.45/2]) square([0.8*3,5.45]);
 		translate([9.5,-pls/2]) square([4-kerf,pls]);
 		translate([arm_pos, 0]) circle(d = 3);
 	}
@@ -128,8 +130,8 @@ module belt_connector(){
 				translate([-15,7.5]) circle(d = 10);
 			}
 		}
-		translate([5,6]) mirror([0,1,0])belt(8);
-		translate([-21,6]) mirror([0,1,0])belt(8);
+		translate([4,10.5]) rotate(-15) mirror([0,1,0]) belt(9);
+		translate([-21,6]) rotate(15) mirror([0,1,0])belt(9);
 		translate([-(plate_thickness-kerf)/2,2]) square([plate_thickness-kerf, 4-kerf]);
 		translate([0,10.5]) circle(d = 3);
 	}
@@ -155,7 +157,7 @@ module spacer(){
 		translate([2.1,w/2-1.4]) square([2.4, 1.4]);
 		translate([2.1,-w/2]) square([2.4, 1.4]);
 		translate([(belt_height+2*plate_thickness)-21,9]) square([20, 3]);
-		translate([(belt_height+2*plate_thickness)-19.5,9-(1.6*3-3)/2]) square([0.8*3,1.6*3]);
+		translate([(belt_height+2*plate_thickness)-19.5,9-(5.45-3)/2]) square([0.8*3,5.45]);
 	}
 }
 
@@ -175,48 +177,77 @@ module plate_3x(){
 	translate([-62,separation*1.5]) rotate(90) belt_connector();
 }
 
+module plate_1x(){
+	carriage_base();
+	translate([15,30]) rotate(172) arm_holder();
+	translate([15,-30]) rotate(190) arm_holder();
+	translate([38,0]) rotate(90) belt_connector();
+	translate([56,0]) rotate(90) belt_connector();
+	translate([-46,0]) rotate(180) spacer();
+}
+
+module pressure_test(){
+	difference(){
+		square([70, 60], center = true);
+		for(i = [0:8]){
+			assign(pos = (major_dia+extrusion)/2-(0.4+i*0.2)){
+				echo(0.4+i*0.2);
+				translate([-16+i*4,-6+i*2+pos]) circle(d = screw_size);
+				translate([-1+i*4,-6+i*2-pos]) circle(d = screw_size);
+				translate([-31+i*4,-6+i*2-pos]) circle(d = screw_size);
+			}
+		}
+		translate([-6,4]) square([0.8*3,5.45], center = true);
+	}
+}
+
 module carriage_complete(){
 
-//Screws
-translate([10.5+belt_height+plate_thickness*2,10.5,50]) rotate([0,-90,0]) screw(20);
-translate([7.5,(separation-horn_thickness-2.5*plate_thickness)/2,50]) rotate([0,90,0]) screw(8);
-translate([7.5,-(separation-horn_thickness-2.5*plate_thickness)/2,50]) rotate([0,90,0]) screw(8);
+	//Screws
+	translate([10.5+belt_height+plate_thickness*2,10.5,50]) rotate([0,-90,0]) screw(20);
+	translate([7.5,(separation-horn_thickness-2.5*plate_thickness)/2,50]) rotate([0,90,0]) screw(8);
+	translate([7.5,-(separation-horn_thickness-2.5*plate_thickness)/2,50]) rotate([0,90,0]) screw(8);
 
-translate([10.5,(extrusion+15.5)/2-wheel_pressure,20]) rotate([0,-90,0]) screw(20);
-translate([10.5,-(extrusion+15.5)/2+wheel_pressure,35]) rotate([0,-90,0]) screw(20);
-translate([10.5,-(extrusion+15.5)/2+wheel_pressure,5]) rotate([0,-90,0]) screw(20);
+	translate([10.5,(extrusion+15.5)/2-wheel_pressure,20]) rotate([0,-90,0]) screw(20);
+	translate([10.5,-(extrusion+15.5)/2+wheel_pressure,35]) rotate([0,-90,0]) screw(20);
+	translate([10.5,-(extrusion+15.5)/2+wheel_pressure,5]) rotate([0,-90,0]) screw(20);
 
-//Nuts
-translate([10.5+5.5,10.5,50]) rotate([0,-90,0]) nut(3);
-translate([13.75,(separation-horn_thickness-2.5*plate_thickness)/2,50]) rotate([0,90,0]) rotate([0,0,30]) nut(3);
-translate([13.75,-(separation-horn_thickness-2.5*plate_thickness)/2,50]) rotate([0,90,0]) rotate([0,0,30]) nut(3);
+	//Nuts
+	translate([10.5+5.5,10.5,50]) rotate([0,-90,0]) nut(3);
+	translate([13.75,(separation-horn_thickness-2.5*plate_thickness)/2,50]) rotate([0,90,0]) rotate([0,0,30]) nut(3);
+	translate([13.75,-(separation-horn_thickness-2.5*plate_thickness)/2,50]) rotate([0,90,0]) rotate([0,0,30]) nut(3);
 
-translate([-7,-(extrusion+15.5)/2+wheel_pressure,5]) rotate([0,-90,0]) nut(3);
+	translate([-7,-(extrusion+15.5)/2+wheel_pressure,5]) rotate([0,-90,0]) nut(3);
 
-translate([-7,-(extrusion+15.5)/2+wheel_pressure,35]) rotate([0,-90,0]) nut(3);
+	translate([-7,-(extrusion+15.5)/2+wheel_pressure,35]) rotate([0,-90,0]) nut(3);
 
-translate([-7,(extrusion+15.5)/2-wheel_pressure,20]) rotate([0,-90,0]) nut(3);
+	translate([-7,(extrusion+15.5)/2-wheel_pressure,20]) rotate([0,-90,0]) nut(3);
 
-//Parts
-translate([10.5+belt_height,0,50]) rotate([90,90,90]) linear_extrude(height = 2*plate_thickness) belt_connector();
+	//Parts
+	translate([10.5+belt_height,0,50]) rotate([90,90,90]) 
+		linear_extrude(height = 2*plate_thickness) belt_connector();
 
-translate([10.5,0,50]) linear_extrude(height = plate_thickness, center = true) spacer();
+	translate([10.5,0,50]) linear_extrude(height = plate_thickness, center = true) spacer();
 
-translate([ 10.5, (separation-plate_thickness)/2-horn_thickness, 50]) rotate([90,0,0]) linear_extrude(height = plate_thickness, center = true) arm_holder();
-translate([ 10.5, -(separation-plate_thickness)/2+horn_thickness, 50]) rotate([90,0,0]) linear_extrude(height = plate_thickness, center = true) arm_holder();
+	translate([ 10.5, (separation-plate_thickness)/2-horn_thickness, 50]) 
+		rotate([90,0,0]) linear_extrude(height = plate_thickness, center = true) arm_holder();
+	translate([ 10.5, -(separation-plate_thickness)/2+horn_thickness, 50]) 
+		rotate([90,0,0]) linear_extrude(height = plate_thickness, center = true) arm_holder();
 
-translate([9,0,20]) rotate([0,90,0]) linear_extrude(height = plate_thickness, center = true) carriage_base();
+	translate([9,0,20]) rotate([0,90,0]) linear_extrude(height = plate_thickness, center = true) carriage_base();
 
-//Extrusion
-color("Gray") translate([0,0,-300]) extrusion(600);
+	//Extrusion
+	//color("Gray") translate([0,0,-300]) extrusion(600);
 
-//Wheels
-color("DimGray"){
-	translate([0,(extrusion+15.5)/2-wheel_pressure,20]) rotate([0,90,0]) wheel();
-	translate([0,-(extrusion+15.5)/2+wheel_pressure,35]) rotate([0,90,0]) wheel();
-	translate([0,-(extrusion+15.5)/2+wheel_pressure,5]) rotate([0,90,0]) wheel();
+	//Wheels
+	color("DimGray"){
+		translate([0,(extrusion+15.5)/2-wheel_pressure,20]) rotate([0,90,0]) wheel();
+		translate([0,-(extrusion+15.5)/2+wheel_pressure,35]) rotate([0,90,0]) wheel();
+		translate([0,-(extrusion+15.5)/2+wheel_pressure,5]) rotate([0,90,0]) wheel();
+	}
 }
-}
+
+//pressure_test();
 
 //carriage_complete();
 
