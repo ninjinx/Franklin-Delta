@@ -24,7 +24,7 @@ major_dia = 15.5;
 
 separation = 46;
 
-wheel_pressure = 0.83;
+wheel_pressure = 0.77;
 wheel_pos = (major_dia+15)/2-wheel_pressure;
 arm_pos = 18.3;
 
@@ -127,45 +127,58 @@ module carriage(){
 		translate([wheel_pos,0,0]) screw_hole();
 
 		//Belt holder
-		translate([5-1.1,12.5-9-22,belt_distance-6]) cube([2.5, 22, 7]);
-		translate([5-1.1,12.5+9,belt_distance-6]) cube([2.5, 22, 7]);
-		translate([5,12.5+5,belt_distance-6]) difference(){
+		translate([5-1.6,12.5-9-22,belt_distance-6]) cube([2.5, 22, 7]);
+		translate([5-1.6,12.5+9,belt_distance-6]) cube([2.5, 22, 7]);
+		translate([4.5,12.5+5,belt_distance-6]) difference(){
 			hull(){
 				cylinder(d = 9.2, h = 7);
 				translate([-1.1,5,0]) cube([2.2, 2, 7]);
 			}
 			cylinder(d = 6, h = 7);
+			translate([0,0,0]) rotate([0,0,45]) cube([3,3,7]);
 		}
-		translate([5,12.5-5,belt_distance-6]) difference(){
+		translate([4.5,12.5-5,belt_distance-6]) difference(){
 			hull(){
 				cylinder(d = 9.2, h = 7);
 				translate([-1.1,-7,0]) cube([2.2, 2, 7]);
 			}
 			cylinder(d = 6, h = 7);
+			translate([0,-4.25,0]) rotate([0,0,45]) cube([3,3,7]);
 		}
 
 		//Remove unnecessary plastic
 		hull(){
 			translate([-wheel_pos,-10,-0.1]) cylinder(d = 6, h = thickness+0.2);
 			translate([-(wheel_pos+3.5),11,-0.1]) cylinder(d = 6, h = thickness+0.2);
-			translate([-7.5,11,-0.1]) cylinder(d = 6, h = thickness+0.2);
-			translate([-7.5,-13,-0.1]) cylinder(d = 6, h = thickness+0.2);
+			translate([-6.5,11,-0.1]) cylinder(d = 6, h = thickness+0.2);
+			translate([-6.5,-13,-0.1]) cylinder(d = 6, h = thickness+0.2);
 		}
 		hull(){
-			translate([wheel_pos+2.5,9,-0.1]) cylinder(d = 9, h = thickness+0.2);
-			translate([wheel_pos+0.5,26,-0.1]) cylinder(d = 6, h = thickness+0.2);
-			translate([wheel_pos+6,22.5,-0.1]) cylinder(d = 6, h = thickness+0.2);
+			translate([wheel_pos-1,9,-0.1]) cylinder(d = 6, h = thickness+0.2);
+			translate([wheel_pos+2.5,8,-0.1]) cylinder(d = 6, h = thickness+0.2);
+			translate([wheel_pos-1,26.8,-0.1]) cylinder(d = 6, h = thickness+0.2);
+			translate([wheel_pos+7,22,-0.1]) cylinder(d = 6, h = thickness+0.2);
 		}
-		translate([0,83.2,0]) cylinder(d = 90, h = thickness*3, center = true, $fn = 128);
+		union(){
+			translate([0,83.2,-0.1]) cylinder(d = 90, h = thickness+0.2, $fn = 128);
+			difference(){
+				translate([-40,44,-0.1]) cube([80, 10, thickness+0.2]);
+				translate([-separation/2, 35, -0.1]) 
+					rotate([0,0,30]) magnet_holder(thickness+0.2, 8);
+				translate([separation/2, 35, -0.1]) 
+					rotate([0,0,-30]) magnet_holder(thickness+0.2, 8);
+			}
+		}
 	}
 }
 
 module magnet_holder_holes(){
-	translate([0,0,-magnet_h+0.7]) cylinder(d1 = magnet_dia, d2 = magnet_dia+0.6, h = magnet_h+.01, $fn=64);
+	translate([0,0,-magnet_h+0.7]) 
+		cylinder(d1 = magnet_dia, d2 = magnet_dia+0.6, h = magnet_h+.01, $fn=64);
 	for(a = [0,120,240]){
 		rotate([0,0,a]) translate([0,7.5,0])
 			rotate([angle, 0, 0]) translate([0,0,-6.55])
-				cylinder(d = 3.95, h = 8.5, $fn = 48);
+				cylinder(d1 = 3.95, d2 = 4.4, h = 8.5, $fn = 48);
 	}
 }
 
@@ -204,8 +217,8 @@ module screw(){
 }
 
 module screw_hole(){
-	cylinder(d = 3.3, h = thickness*3, center = true); 
-	translate([0,0,3.5]) cylinder(d = 6.5, h = thickness, $fn = 6); 
+	cylinder(d = 4, h = thickness*3, center = true); 
+	translate([0,0,3.5]) cylinder(d1 = 4, d2 = 5, h = thickness-3); 
 }
 
 carriage();
