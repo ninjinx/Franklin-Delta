@@ -127,21 +127,21 @@ module carriage(){
 		translate([wheel_pos,0,0]) screw_hole();
 
 		//Belt holder
-		translate([5-1.1,12.5-9-22,belt_distance-6]) cube([2.2, 22, 7]);
-		translate([5-1.1,12.5+9,belt_distance-6]) cube([2.2, 22, 7]);
+		translate([5-1.1,12.5-9-22,belt_distance-6]) cube([2.5, 22, 7]);
+		translate([5-1.1,12.5+9,belt_distance-6]) cube([2.5, 22, 7]);
 		translate([5,12.5+5,belt_distance-6]) difference(){
 			hull(){
-				cylinder(d = 8.1, h = 7);
-				translate([-1.1,4,0]) cube([2.2, 2, 7]);
+				cylinder(d = 9.2, h = 7);
+				translate([-1.1,5,0]) cube([2.2, 2, 7]);
 			}
-			cylinder(d = 5, h = 7);
+			cylinder(d = 6, h = 7);
 		}
 		translate([5,12.5-5,belt_distance-6]) difference(){
 			hull(){
-				cylinder(d = 8.1, h = 7);
-				translate([-1.1,-6,0]) cube([2.2, 2, 7]);
+				cylinder(d = 9.2, h = 7);
+				translate([-1.1,-7,0]) cube([2.2, 2, 7]);
 			}
-			cylinder(d = 5, h = 7);
+			cylinder(d = 6, h = 7);
 		}
 
 		//Remove unnecessary plastic
@@ -161,7 +161,7 @@ module carriage(){
 }
 
 module magnet_holder_holes(){
-	translate([0,0,-magnet_h+0.7]) cylinder(d = magnet_dia, h = magnet_h+.01, $fn=64);
+	translate([0,0,-magnet_h+0.7]) cylinder(d1 = magnet_dia, d2 = magnet_dia+0.6, h = magnet_h+.01, $fn=64);
 	for(a = [0,120,240]){
 		rotate([0,0,a]) translate([0,7.5,0])
 			rotate([angle, 0, 0]) translate([0,0,-6.55])
@@ -205,7 +205,7 @@ module screw(){
 
 module screw_hole(){
 	cylinder(d = 3.3, h = thickness*3, center = true); 
-	translate([0,0,3.5]) cylinder(d = 6, h = thickness, $fn = 6); 
+	translate([0,0,3.5]) cylinder(d = 6.5, h = thickness, $fn = 6); 
 }
 
 carriage();
