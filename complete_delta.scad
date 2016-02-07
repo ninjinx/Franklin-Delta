@@ -1,7 +1,7 @@
 include <configuration.scad>;
 
 use <extrusion.scad>;
-use <laser_carriage.scad>;
+use <new_carriage.scad>;
 use <effector.scad>;
 use <e3d_v6.scad>;
 use <nema17.scad>;
@@ -14,14 +14,14 @@ for(i = [0, 120, 240]){
 		extrusion(240, center = true);
 	rotate([0,-90,30+i]) translate([590-7.5, -inner_radius-7.5, 0]) extrusion(240, center = true);
 
-	rotate([0,0,i]) translate([outer_radius,0,380]) rotate([0,0,180]) carriage_complete();
+	rotate([0,0,i]) translate([outer_radius-2-extrusion/2,0,380]) rotate([90,0,-90]) carriage();
 
-	/*color([0.25,0.25,0.25]){
+	color([0.25,0.25,0.25]){
 	rotate([0,0,i]) translate([131,28,430]) 
 		rotate([0,-90-48,0]) cylinder(d = 6, h = 180, $fn = 32);
 	rotate([0,0,i]) translate([131,-28,430]) 
 		rotate([0,-90-48,0]) cylinder(d = 6, h = 180, $fn = 32);
-	}*/
+	}
 
 	color("grey") rotate([0,90,i]) translate([-(42.2/2+8),0, outer_radius-38]) nema17();
 

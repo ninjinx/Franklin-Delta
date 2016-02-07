@@ -48,4 +48,4 @@ v3 = v1+v2;
 corner_length = v3[1]*2;
 corner_distance = v3[0];
 
-echo(corner_length);
+echo(base_height);
